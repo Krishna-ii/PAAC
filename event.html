@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Details</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="stars"></div> <!-- Adding stars background -->
+
+    <h1 id="event-title"></h1>
+    <p id="event-description"></p>
+    
+    <h2>Previous Editions</h2>
+    <ul id="previous-editions"></ul>
+
+    <script>
+        const eventsData = {
+            "integration-bee": {
+                title: "Integration Bee",
+                description: "Mathematical battle of integration skills!",
+                editions: ["Integration Bee 2024", "Integration Bee 2023"]
+            },
+            "astrophotography-contest": {
+                title: "Astrophotography Contest",
+                description: "Capture the wonders of the night sky.",
+                editions: ["Astrophotography 2024", "Astrophotography 2023"]
+            }
+        };
+
+        function loadEventDetails() {
+            const params = new URLSearchParams(window.location.search);
+            const eventKey = params.get("event");
+
+            if (eventsData[eventKey]) {
+                document.getElementById("event-title").innerText = eventsData[eventKey].title;
+                document.getElementById("event-description").innerText = eventsData[eventKey].description;
+
+                const editionsList = document.getElementById("previous-editions");
+                eventsData[eventKey].editions.forEach(edition => {
+                    const li = document.createElement("li");
+                    li.innerText = edition;
+                    li.classList.add("edition-item"); // Add class for styling
+                    editionsList.appendChild(li);
+                });
+            } else {
+                document.body.innerHTML = "<h1>Event Not Found</h1>";
+            }
+        }
+
+        function createStars(numStars) {
+            for (let i = 0; i < numStars; i++) {
+                let star = document.createElement("div");
+                star.className = "star";
+                star.style.top = Math.random() * 100 + "vh";
+                star.style.left = Math.random() * 100 + "vw";
+                star.style.animationDelay = Math.random() * 5 + "s";
+                document.body.appendChild(star);
+            }
+        }
+
+        function createShootingStars(numShootingStars) {
+            for (let i = 0; i < numShootingStars; i++) {
+                let shootingStar = document.createElement("div");
+                shootingStar.className = "shooting-star";
+                shootingStar.style.top = Math.random() * 50 + "vh";
+                shootingStar.style.left = Math.random() * 100 + "vw";
+                shootingStar.style.animationDelay = Math.random() * 10 + "s";
+                document.body.appendChild(shootingStar);
+            }
+        }
+
+        window.onload = () => {
+            loadEventDetails();
+            createStars(100);
+            createShootingStars(5);
+        };
+    </script>
+</body>
+</html>

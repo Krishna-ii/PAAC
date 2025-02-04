@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PaAC Events</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .slideshow-container {
+            position: relative;
+            max-width: 600px;
+            margin: auto;
+            overflow: hidden;
+        }
+        .slide {
+            display: none;
+            text-align: center;
+        }
+        .active {
+            display: block;
+        }
+        .prev, .next {
+            cursor: pointer;
+            position: absolute;
+            top: 50%;
+            width: auto;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            transform: translateY(-50%);
+        }
+        .prev { left: 0; }
+        .next { right: 0; }
+    </style>
+</head>
+<body>
+    <div class="stars"></div>
+    <h1>Physics and Astronomy Club</h1>
+    <h2>Indian Institute of Technology Roorkee</h2>
+    
+    <div class="slideshow-container">
+        <div class="slide active" onclick="navigateToEvent('integration-bee')">
+            <h3>Integration Bee</h3>
+            <p>Mathematical battle of integration skills!</p>
+        </div>
+        <div class="slide" onclick="navigateToEvent('astrophotography-contest')">
+            <h3>Astrophotography Contest</h3>
+            <p>Capture the wonders of the night sky.</p>
+        </div>
+        
+        <button class="prev" onclick="changeSlide(-1)">&#10094;</button>
+        <button class="next" onclick="changeSlide(1)">&#10095;</button>
+    </div>
+    
+    <script>
+        let slideIndex = 0;
+        const slides = document.querySelectorAll(".slide");
+
+        function showSlide(index) {
+            slides.forEach((slide, i) => {
+                slide.classList.toggle("active", i === index);
+            });
+        }
+
+        function changeSlide(direction) {
+            slideIndex = (slideIndex + direction + slides.length) % slides.length;
+            showSlide(slideIndex);
+        }
+        
+        setInterval(() => changeSlide(1), 5000);
+
+        function navigateToEvent(eventName) {
+            window.location.href = `event.html?event=${eventName}`;
+        }
+
+        function createStars(numStars) {
+            for (let i = 0; i < numStars; i++) {
+                let star = document.createElement("div");
+                star.className = "star";
+                star.style.top = Math.random() * 100 + "vh";
+                star.style.left = Math.random() * 100 + "vw";
+                star.style.animationDelay = Math.random() * 5 + "s";
+                document.body.appendChild(star);
+            }
+        }
+
+        function createShootingStars(numShootingStars) {
+            for (let i = 0; i < numShootingStars; i++) {
+                let shootingStar = document.createElement("div");
+                shootingStar.className = "shooting-star";
+                shootingStar.style.top = Math.random() * 50 + "vh";
+                shootingStar.style.left = Math.random() * 100 + "vw";
+                shootingStar.style.animationDelay = Math.random() * 10 + "s";
+                document.body.appendChild(shootingStar);
+            }
+        }
+
+        createStars(100);
+        createShootingStars(5);
+    </script>
+</body>
+</html>

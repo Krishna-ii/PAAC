@@ -1,0 +1,61 @@
+/* Space gradient background */
+body {
+    font-family: 'Poppins', sans-serif;
+    text-align: center;
+    background: radial-gradient(circle, #0a0a2a, #000011);
+    color: white;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    position: relative;
+}
+
+/* Static blinking stars */
+.star {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: white;
+    border-radius: 50%;
+    opacity: 0;
+    animation: blink 2s infinite alternate;
+}
+
+/* Blinking animation */
+@keyframes blink {
+    0% { opacity: 0.3; }
+    50% { opacity: 1; }
+    100% { opacity: 0.3; }
+}
+
+/* Shooting stars */
+.shooting-star {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    background: white;
+    border-radius: 50%;
+    box-shadow: 0px 0px 10px white;
+    opacity: 0.8;
+    animation: shoot 3s linear infinite;
+}
+
+/* Shooting star animation */
+@keyframes shoot {
+    0% { transform: translate(100vw, -50vh) scale(1); opacity: 1; }
+    100% { transform: translate(-100vw, 100vh) scale(0.5); opacity: 0; }
+}
+
+/* Title glow effect */
+h1 {
+    font-size: 3rem;
+    margin-top: 20px;
+    text-shadow: 0px 0px 20px rgba(255, 255, 255, 0.9);
+    animation: glow 2s infinite alternate;
+}
+
+/* Glow animation */
+@keyframes glow {
+    from { text-shadow: 0px 0px 10px cyan; }
+    to { text-shadow: 0px 0px 20px white; }
+}
