@@ -16,15 +16,6 @@
     <ul id="previous-editions"></ul>
 
     <script>
-        footer {
-        text-align: center;
-        background: #222;
-        color: white;
-        padding: 10px;
-        position: fixed;
-        bottom: 0;
-        width: 100%;
-    }
         const eventsData = {
             "integration-bee": {
                 title: "Integration Bee",
@@ -35,6 +26,21 @@
                 title: "Astrophotography Contest",
                 description: "Capture the wonders of the night sky.",
                 editions: ["Astrophotography 2024", "Astrophotography 2023"]
+            },
+            "open-project": {
+            title: "Open Project",
+            description: "Participate and Win!",
+            image: "open.jpg"
+        },
+             "Conduct Lecture" :{
+                title: "lecture",
+                description: "Code your way to victory!",
+                editions: ["Hackathon 2024", "Hackathon 2023"]
+            },
+            "quiz": {
+                title: "Quiz",
+                description: "Test your knowledge of science and physics!",
+                editions: ["Quiz 2024", "Quiz 2023"]
             }
         };
 
@@ -47,6 +53,7 @@
                 document.getElementById("event-description").innerText = eventsData[eventKey].description;
 
                 const editionsList = document.getElementById("previous-editions");
+                editionsList.innerHTML = "";
                 eventsData[eventKey].editions.forEach(edition => {
                     const li = document.createElement("li");
                     li.innerText = edition;
@@ -87,7 +94,4 @@
         };
     </script>
 </body>
-    <footer>
-    <p>&copy; 2025 Physics and Astronomy Club, IIT Roorkee. All rights reserved.</p>
-</footer>
 </html>
