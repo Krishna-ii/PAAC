@@ -3,113 +3,224 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PaAC Events</title>
+    <title>Events - Physics & Astronomy Club</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        footer {
-        text-align: center;
-        background: #222;
-        color: white;
-        padding: 10px;
-        position: fixed;
-        bottom: 0;
-        width: 100%;
-    }
-        .slideshow-container {
-            position: relative;
-            max-width: 600px;
-            margin: auto;
-            overflow: hidden;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        .slide {
-            display: none;
-            text-align: center;
-        }
-        .active {
-            display: block;
-        }
-        .prev, .next {
-            cursor: pointer;
-            position: absolute;
-            top: 50%;
-            width: auto;
-            padding: 10px;
-            background: rgba(0, 0, 0, 0.5);
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #0a0a2a;
             color: white;
-            border: none;
-            transform: translateY(-50%);
+            text-align: center;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
-        .prev { left: 0; }
-        .next { right: 0; }
+
+        .stars-container {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            opacity: 0.8;
+            animation: blink 2s infinite alternate;
+        }
+
+        @keyframes blink {
+            0% { opacity: 0.2; }
+            100% { opacity: 1; }
+        }
+
+        .shooting-star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            box-shadow: 0 0 8px white;
+            opacity: 0;
+            transform: rotate(-45deg);
+            animation: shoot 4s linear infinite;
+        }
+
+        @keyframes shoot {
+            0% {
+                opacity: 1;
+                transform: translate(100vw, 0) rotate(-45deg);
+            }
+            100% {
+                opacity: 0;
+                transform: translate(-50vw, 50vh) rotate(-45deg);
+            }
+        }
+
+        h1 {
+            margin-top: 20px;
+            margin-bottom: 50px;
+        }
+
+        .content {
+            flex: 1;
+            padding: 20px;
+        }
+
+        .events-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            max-width: 1000px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        .event-box {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            transition: transform 0.3s;
+            cursor: pointer;
+        }
+
+        .event-box:hover {
+            transform: scale(1.05);
+        }
+
+        .event-box img {
+            width: 100%;
+            max-height: 150px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .event-box h3 {
+            margin: 10px 0;
+        }
+
+        .event-box p {
+            font-size: 14px;
+        }
+
+        footer {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px;
+            text-align: center;
+            width: 100%;
+        }
     </style>
 </head>
 <body>
-    <div class="stars"></div>
-    <h1>Physics and Astronomy Club</h1>
-    <h2>Indian Institute of Technology Roorkee</h2>
-    
-    <div class="slideshow-container">
-        <div class="slide active" onclick="navigateToEvent('integration-bee')">
-            <h3>Integration Bee</h3>
-            <p>Mathematical battle of integration skills!</p>
-        </div>
-        <div class="slide" onclick="navigateToEvent('astrophotography-contest')">
-            <h3>Astrophotography Contest</h3>
-            <p>Capture the wonders of the night sky.</p>
-        </div>
-        
-        <button class="prev" onclick="changeSlide(-1)">&#10094;</button>
-        <button class="next" onclick="changeSlide(1)">&#10095;</button>
-    </div>
-    
-    <script>
-        let slideIndex = 0;
-        const slides = document.querySelectorAll(".slide");
+    <div class="stars-container"></div>
 
-        function showSlide(index) {
-            slides.forEach((slide, i) => {
-                slide.classList.toggle("active", i === index);
+    <div class="content">
+        <h1>Physics and Astronomy Club, IITR</h1>
+        <div class="events-container" id="events-grid"></div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Physics and Astronomy Club, IIT Roorkee. All rights reserved.</p>
+    </footer>
+
+    <script>
+        const eventsData = [
+            {
+                key: "integration-bee",
+                title: "Integration Bee",
+                description: "Mathematical battle of integration skills!",
+                image: "bee1.jpg"
+            },
+            {
+                key: "astrophotography-contest",
+                title: "Astrophotography Contest",
+                description: "Capture the wonders of the night sky.",
+                image: "a.png"
+            },
+            {
+                key: "open-project",
+                title: "Open Project",
+                description: "Participate and Win!",
+                image: "open.png"
+            },
+            {
+                key: "Conduct Lecture",
+                title: "lecture",
+                description: "Learn then apply",
+                image: "num.jpg"
+            },
+            {
+                key: "quiz",
+                title: "Quiz",
+                description: "Test your knowledge of science and physics!",
+                image: "quize.jpg"
+            }
+        ];
+
+        function loadEvents() {
+            const eventsGrid = document.getElementById("events-grid");
+            eventsData.forEach(event => {
+                let box = document.createElement("div");
+                box.classList.add("event-box");
+                box.onclick = () => window.location.href = `event.html?event=${event.key}`;
+
+                let img = document.createElement("img");
+                img.src = event.image;
+                img.alt = event.title;
+
+                let title = document.createElement("h3");
+                title.innerText = event.title;
+
+                let desc = document.createElement("p");
+                desc.innerText = event.description;
+
+                box.appendChild(img);
+                box.appendChild(title);
+                box.appendChild(desc);
+                eventsGrid.appendChild(box);
             });
         }
 
-        function changeSlide(direction) {
-            slideIndex = (slideIndex + direction + slides.length) % slides.length;
-            showSlide(slideIndex);
-        }
-        
-        setInterval(() => changeSlide(1), 5000);
+        function createStars() {
+            const starsContainer = document.querySelector(".stars-container");
 
-        function navigateToEvent(eventName) {
-            window.location.href = `event.html?event=${eventName}`;
-        }
-
-        function createStars(numStars) {
-            for (let i = 0; i < numStars; i++) {
+            // Blinking Stars
+            for (let i = 0; i < 100; i++) {
                 let star = document.createElement("div");
-                star.className = "star";
+                star.classList.add("star");
                 star.style.top = Math.random() * 100 + "vh";
                 star.style.left = Math.random() * 100 + "vw";
-                star.style.animationDelay = Math.random() * 5 + "s";
-                document.body.appendChild(star);
+                star.style.animationDuration = Math.random() * 2 + 1 + "s";
+                starsContainer.appendChild(star);
             }
-        }
 
-        function createShootingStars(numShootingStars) {
-            for (let i = 0; i < numShootingStars; i++) {
+            // Shooting Stars
+            for (let i = 0; i < 5; i++) {
                 let shootingStar = document.createElement("div");
-                shootingStar.className = "shooting-star";
-                shootingStar.style.top = Math.random() * 50 + "vh";
+                shootingStar.classList.add("shooting-star");
+                shootingStar.style.top = Math.random() * 100 + "vh";
                 shootingStar.style.left = Math.random() * 100 + "vw";
-                shootingStar.style.animationDelay = Math.random() * 10 + "s";
-                document.body.appendChild(shootingStar);
+                shootingStar.style.animationDelay = Math.random() * 5 + "s";
+                starsContainer.appendChild(shootingStar);
             }
         }
 
-        createStars(100);
-        createShootingStars(5);
+        window.onload = function() {
+            loadEvents();
+            createStars();
+        };
     </script>
 </body>
-    <footer>
-    <p>&copy; 2025 Physics and Astronomy Club, IIT Roorkee. All rights reserved.</p>
-</footer>
 </html>
